@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::controller(SubscriberController::class)->prefix('/subscribe')->name('subs
     Route::post('/sidebar/store', 'store')->name('sidebar.store');
     Route::post('/footer/store', 'store')->name('footer.store');
 });
+
+// Contact Route
+Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
