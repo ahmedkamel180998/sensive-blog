@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Blog routes
 Route::controller(BlogController::class)->name('blog.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/category', 'category')->name('category');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/blog-details', 'blogDetails')->name('blogDetails');
+});
+
+// Subscriber Routes
+// beginner solution for named error bag
+Route::controller(SubscriberController::class)->prefix('/subscribe')->name('subscribe.')->group(function () {
+    Route::post('/sidebar/store', 'store')->name('sidebar.store');
+    Route::post('/footer/store', 'store')->name('footer.store');
 });
 
 Route::get('/dashboard', function () {
