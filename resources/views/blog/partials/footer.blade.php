@@ -24,9 +24,9 @@
 
                                 <div class="d-flex flex-row">
 
-                                    <input class="form-control" name="EMAIL" placeholder="Enter Email"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-                                        required="" type="email">
+                                    <input class="form-control" name="EMAIL" id="footer-email" type="email"
+                                        placeholder="Enter Email" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Enter Email '" required autocomplete="username">
 
 
                                     <button class="click-btn btn btn-default"><span

@@ -13,6 +13,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="navbar-collapse offset collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav justify-content-center">
@@ -40,16 +41,44 @@
                         <a href="#" class="btn btn-sm btn-primary mr-2">Add New</a>
                         <!-- End - Add new blog -->
 
+                        <!-- Show Logged user avatar -->
                         <ul class="nav navbar-nav navbar-right navbar-social">
-                            <a href="#" class="btn btn-sm btn-warning">Register / Login</a>
-                            <!-- <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Welcome User</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog-details.html">My Blogs</a></li>
-                </ul>
-              </li> -->
+                            @if (Auth::check())
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="btn dropdown-toggle d-flex align-items-center"
+                                        data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mr-2 text-white"
+                                            style="width: 32px; height: 32px; font-size: 14px;">
+                                            {{ strtoupper(Auth::user()->name[0]) }}
+                                        </div>
+                                        <span class="font-weight-bold"
+                                            style="font-size: 20px; color: #007bff">{{ Auth::user()->name }}</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('profile.edit') }}">Profile</a>
+                                        </li>
+                                        <li class="nav-item"><a class="nav-link" href="blog-details.html">My Blogs</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <!-- Authentication -->
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+
+                                                <a class="nav-link" href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                                    Logout
+                                                </a>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @else
+                                <a href="{{ route('login') }}" class="btn btn-sm btn-warning">Register / Login</a>
+                            @endif
                         </ul>
+                        <!-- End show Logged user avatar -->
                     </div>
                 </div>
             </nav>
