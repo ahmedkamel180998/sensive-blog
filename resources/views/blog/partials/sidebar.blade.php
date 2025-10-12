@@ -16,9 +16,8 @@
                     <h4 class="single-sidebar-widget__title">Newsletter</h4>
                     <div class="form-group mt-30">
                         <div class="col-autos">
-                            <input name="email" type="email" class="form-control" id="inlineFormInputGroup" placeholder="Enter email"
-                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email'" value="{{ old('email') }}" required
-                                autofocus autocomplete="username">
+                            <input name="email" type="email" class="form-control" id="newsletterFormInput" placeholder="Enter email" onfocus="this.placeholder = ''"
+                                onblur="this.placeholder = 'Enter email'" value="{{ old('email') }}" required autofocus autocomplete="username">
 
                             {{-- beginner solution for named error bag --}}
                             @if (session('requestUri') == '/subscribe/sidebar/store')

@@ -1,72 +1,39 @@
 $(function () {
     "use strict";
-
-    // //------- Sticky Header -------//
-    // $(".sticky-header").sticky();
-
-    // //------- video popup -------//
-    // $(".hero-banner__video, .video-play-button").magnificPopup({
-    //   disableOn: 700,
-    //   type: "iframe",
-    //   mainClass: "mfp-fade",
-    //   removalDelay: 160,
-    //   preloader: false,
-    //   fixedContentPos: false
-    // });
-
-    // //------- mailchimp --------//
-    // function mailChimp() {
-    // 	$('#mc_embed_signup').find('form').ajaxChimp();
-    // }
-    // mailChimp();
-
-    var nav_offset_top = $("header").height() + 50;
     /*-------------------------------------------------------------------------------
-	  Navbar
-	-------------------------------------------------------------------------------*/
+      Navbar Fixed using Intersection Observer
+    -------------------------------------------------------------------------------*/
+    function initStickyNav() {
+        const nav = document.querySelector(".header_area");
+        const header = document.querySelector(".hero-banner"); // or your header element
 
-    //* Navbar Fixed
-    function navbarFixed() {
-        if ($(".header_area").length) {
-            $(window).scroll(function () {
-                var scroll = $(window).scrollTop();
-                if (scroll >= nav_offset_top) {
-                    $(".header_area").addClass("navbar_fixed");
-                } else {
-                    $(".header_area").removeClass("navbar_fixed");
-                }
-            });
-        }
-    }
-    navbarFixed();
+        if (!nav || !header) return;
 
-    if ($(".blog-slider").length) {
-        $(".blog-slider").owlCarousel({
-            loop: true,
-            margin: 30,
-            items: 1,
-            nav: true,
-            autoplay: 2500,
-            smartSpeed: 1500,
-            dots: false,
-            responsiveClass: true,
-            navText: [
-                "<div class='blog-slider__leftArrow'><img src='assets/img/home/left-arrow.png'></div>",
-                "<div class='blog-slider__rightArrow'><img src='assets/img/home/right-arrow.png'></div>",
-            ],
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                600: {
-                    items: 2,
-                },
-                1000: {
-                    items: 3,
-                },
-            },
-        });
+        const stickyNav = function (entries) {
+            const [entry] = entries;
+            if (!entry.isIntersecting) {
+                nav.classList.add("navbar_fixed");
+            } else {
+                nav.classList.remove("navbar_fixed");
+            }
+        };
+
+        const navHeight = nav.getBoundingClientRect().height;
+        const stickyOptions = {
+            root: null,
+            threshold: 0,
+            rootMargin: `-${navHeight}px`,
+        };
+
+        const headerObserver = new IntersectionObserver(
+            stickyNav,
+            stickyOptions
+        );
+        headerObserver.observe(header);
     }
+
+    // Replace old navbarFixed() call with:
+    initStickyNav();
 
     //------- mailchimp --------//
     function mailChimp() {

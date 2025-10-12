@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogPagesController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Blog routes
-Route::controller(BlogController::class)->name('blog.')->group(function () {
+Route::controller(BlogPagesController::class)->name('blog.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/category', 'category')->name('category');
     Route::get('/contact', 'contact')->name('contact');
@@ -34,6 +35,8 @@ Route::controller(SubscriberController::class)->prefix('/subscribe')->name('subs
 
 // Contact Route
 Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
+
+Route::resource('/blogs', BlogController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -1,4 +1,5 @@
 @extends('blog.master')
+@section('title', 'Login')
 
 @section('content')
     @include('blog.partials.hero', ['title' => 'Login'])
@@ -8,22 +9,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-6 mx-auto">
-                    <form method="POST" action="{{ route('login') }}" class="form-contact contact_form" id="contactForm"
-                        novalidate="novalidate">
+                    <form method="POST" action="{{ route('login') }}" class="form-contact contact_form" id="contactForm" novalidate="novalidate">
                         @csrf
 
                         <!-- Email Address -->
                         <div class="form-group">
-                            <input class="form-control border" name="email" id="email" type="email"
-                                placeholder="Enter email address" value="{{ old('email') }}" required autofocus
-                                autocomplete="username">
+                            <input class="form-control border" name="email" id="email" type="email" placeholder="Enter email address" value="{{ old('email') }}"
+                                required autofocus autocomplete="username">
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
 
                         <!-- Password -->
                         <div class="form-group">
-                            <input class="form-control border" name="password" id="password" type="password"
-                                placeholder="Enter your password" required autocomplete="current-password">
+                            <input class="form-control border" name="password" id="password" type="password" placeholder="Enter your password" required
+                                autocomplete="current-password">
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
                         </div>
 
