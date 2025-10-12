@@ -1,7 +1,7 @@
 @extends('blog.master')
 
 @section('content')
-    @include('blog.partials.hero', ['title' => 'Blog Details'])
+    @include('blog.partials.hero', ['title' => $blog->name])
 
     <!--================ Start Blog Post Area =================-->
     <section class="blog-post-area section-margin">
@@ -9,38 +9,24 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="main_blog_details">
-                        <img class="img-fluid" src="{{ asset('assets') }}/img/blog/blog4.png" alt="">
-                        <a href="#">
-                            <h4>Cartridge Is Better Than Ever <br /> A Discount Toner</h4>
+                        <x-cld-image public-id="{{ $blog->image_public_id }}" alt="{{ $blog->name }}" width="80" height="80" class="img-fluid"></x-cld-image>
+                        <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
+                            <h4>{{ $blog->name }}</h4>
                         </a>
                         <div class="user_details">
                             <div class="mt-sm-0 float-right mt-3">
                                 <div class="media">
                                     <div class="media-body">
-                                        <h5>Mark wiens</h5>
-                                        <p>12 Dec, 2017 11:21 am</p>
+                                        <h5>{{ $blog->user->name }}</h5>
+                                        <p>{{ $blog->created_at->format('d M Y') }}</p>
                                     </div>
                                     <div class="d-flex">
-                                        <img width="42" height="42" src="{{ asset('assets') }}/img/avatar.png"
-                                            alt="">
+                                        <img width="42" height="42" src="{{ asset('assets') }}/img/avatar.png" alt="">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower</p>
-                        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower to actually sit through a
-                            self-imposed MCSE training. who has the willpower to actually sit through a self-imposed MCSE
-                            training.</p>
-                        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower</p>
-                        <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower</p>
+                        <p>{{ $blog->description }}</p>
                     </div>
 
                     <div class="comments-area">
@@ -100,22 +86,21 @@
                         <form>
                             <div class="form-group form-inline">
                                 <div class="form-group col-lg-6 col-md-6 name">
-                                    <input type="text" class="form-control" id="name" placeholder="Enter Name"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
+                                    <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Enter Name'">
                                 </div>
                                 <div class="form-group col-lg-6 col-md-6 email">
-                                    <input type="email" class="form-control" id="email"
-                                        placeholder="Enter email address" onfocus="this.placeholder = ''"
+                                    <input type="email" class="form-control" id="email" placeholder="Enter email address" onfocus="this.placeholder = ''"
                                         onblur="this.placeholder = 'Enter email address'">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="subject" placeholder="Subject"
-                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'">
+                                <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Subject'">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Messege'" required=""></textarea>
+                                <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'"
+                                    required=""></textarea>
                             </div>
                             <a href="#" class="button submit_btn">Post Comment</a>
                         </form>
@@ -129,8 +114,7 @@
                             <h4 class="single-sidebar-widget__title">Newsletter</h4>
                             <div class="form-group mt-30">
                                 <div class="col-autos">
-                                    <input type="text" class="form-control" id="inlineFormInputGroup"
-                                        placeholder="Enter email" onfocus="this.placeholder = ''"
+                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
                                         onblur="this.placeholder = 'Enter email'">
                                 </div>
                             </div>
@@ -178,8 +162,7 @@
                             <div class="popular-post-list">
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0"
-                                            src="{{ asset('assets') }}/img/blog/thumb/thumb1.png" alt="">
+                                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb1.png" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#">Adam Colinge</a></li>
                                             <li><a href="#">Dec 15</a></li>
@@ -193,8 +176,7 @@
                                 </div>
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0"
-                                            src="{{ asset('assets') }}/img/blog/thumb/thumb2.png" alt="">
+                                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb2.png" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#">Adam Colinge</a></li>
                                             <li><a href="#">Dec 15</a></li>
@@ -209,8 +191,7 @@
                                 </div>
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0"
-                                            src="{{ asset('assets') }}/img/blog/thumb/thumb3.png" alt="">
+                                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb3.png" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#">Adam Colinge</a></li>
                                             <li><a href="#">Dec 15</a></li>

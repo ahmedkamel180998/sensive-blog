@@ -22,13 +22,13 @@
                             <a class="nav-link" href="{{ route('blog.index') }}">Home</a>
                         </li>
                         <li class="nav-item submenu dropdown @yield('categories-active')">
-                            <a href="{{ route('blog.category') }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            <a href="{{ route('blogs.index') }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                 aria-expanded="false">Categories</a>
                             @if (count($categories) > 0)
                                 <ul class="dropdown-menu">
                                     @foreach ($categories as $category)
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('blog.index') }}">{{ $category->name }}</a>
+                                            <a class="nav-link" href="{{ route('blog.category', ['id' => $category->id]) }}">{{ $category->name }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -60,7 +60,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="blog-details.html">My Blogs</a>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('blog.myBlogs') }}">My Blogs</a>
                                     </li>
                                     <li class="nav-item">
                                         <!-- Authentication -->
