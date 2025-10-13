@@ -58,8 +58,8 @@
                                     <span class="font-weight-bold" style="font-size: 20px; color: #007bff">{{ Auth::user()->name }}</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
-                                    </li>
+                                    {{-- <li class="nav-item"><a class="nav-link" href="{{ route('profile.edit') }}">Profile</a>
+                                    </li> --}}
                                     <li class="nav-item"><a class="nav-link" href="{{ route('blog.myBlogs') }}">My Blogs</a>
                                     </li>
                                     <li class="nav-item">
