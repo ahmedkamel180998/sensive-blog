@@ -25,7 +25,7 @@
                 <div class="owl-carousel owl-theme blog-slider">
                     <div class="card blog__slide text-center">
                         <div class="blog__slide__img">
-                            <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/blog-slider/blog-slide1.png" alt="">
+                            <img class="card-img rounded-0" src="{{ asset('assets/img/blog/blog-slider/blog-slide1.png') }}" alt="">
                         </div>
                         <div class="blog__slide__content">
                             <a class="blog__slide__label" href="#">Fashion</a>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="card blog__slide text-center">
                         <div class="blog__slide__img">
-                            <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/blog-slider/blog-slide2.png" alt="">
+                            <img class="card-img rounded-0" src="{{ asset('assets/img/blog/blog-slider/blog-slide2.png') }}" alt="">
                         </div>
                         <div class="blog__slide__content">
                             <a class="blog__slide__label" href="#">Fashion</a>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="card blog__slide text-center">
                         <div class="blog__slide__img">
-                            <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/blog-slider/blog-slide3.png" alt="">
+                            <img class="card-img rounded-0" src="{{ asset('assets/img/blog/blog-slider/blog-slide3.png') }}" alt="">
                         </div>
                         <div class="blog__slide__content">
                             <a class="blog__slide__label" href="#">Fashion</a>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="card blog__slide text-center">
                         <div class="blog__slide__img">
-                            <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/blog-slider/blog-slide1.png" alt="">
+                            <img class="card-img rounded-0" src="{{ asset('assets/img/blog/blog-slider/blog-slide1.png') }}" alt="">
                         </div>
                         <div class="blog__slide__content">
                             <a class="blog__slide__label" href="#">Fashion</a>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="card blog__slide text-center">
                         <div class="blog__slide__img">
-                            <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/blog-slider/blog-slide2.png" alt="">
+                            <img class="card-img rounded-0" src="{{ asset('assets/img/blog/blog-slider/blog-slide2.png') }}" alt="">
                         </div>
                         <div class="blog__slide__content">
                             <a class="blog__slide__label" href="#">Fashion</a>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="card blog__slide text-center">
                         <div class="blog__slide__img">
-                            <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/blog-slider/blog-slide3.png" alt="">
+                            <img class="card-img rounded-0" src="{{ asset('assets/img/blog/blog-slider/blog-slide3.png') }}" alt="">
                         </div>
                         <div class="blog__slide__content">
                             <a class="blog__slide__label" href="#">Fashion</a>
@@ -97,8 +97,26 @@
                             @foreach ($blogs as $blog)
                                 <div class="single-recent-blog-post">
                                     <div class="thumb">
-                                        <x-cld-image public-id="{{ $blog->image_public_id }}" alt="{{ $blog->name }}" width="80" height="80"
-                                            class="img-fluid"></x-cld-image>
+                                        @if($blog && $blog->image_public_id)
+                                            <!--suppress BladeUnknownComponentInspection -->
+                                            <x-cld-image
+                                                public-id="{{ $blog->image_public_id }}"
+                                                :alt="$blog->name"
+                                                width="80"
+                                                height="80"
+                                                class="img-fluid"
+                                                loading="lazy">
+                                            </x-cld-image>
+                                        @elseif($blog->image_url)
+                                            <img src="{{ $blog->image_url }}"
+                                                 alt="{{ $blog->name }}"
+                                                 width="80"
+                                                 height="80"
+                                                 class="img-fluid"
+                                                 loading="lazy">
+                                        @else
+                                            <div class="placeholder-image" style="width: 80px; height: 80px; background: #e0e0e0;"></div>
+                                        @endif
                                         <ul class="thumb-info">
                                             <li><a href="#"><i class="ti-user"></i>{{ $blog->user->name }}</a></li>
                                             <li><a href="#"><i class="ti-notepad"></i>{{ $blog->created_at->format('d M Y') }}</a></li>
@@ -106,7 +124,7 @@
                                         </ul>
                                     </div>
                                     <div class="details mt-20">
-                                        <a href="blog-single.html">
+                                        <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
                                             <h3>{{ $blog->name }}</h3>
                                         </a>
                                         <p>{{ $blog->description }}</p>
@@ -125,6 +143,7 @@
 
                     @include('blog.partials.sidebar')
                 </div>
+            </div>
         </section>
         <!--================ End Blog Post Area =================-->
     </main>

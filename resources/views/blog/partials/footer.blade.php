@@ -32,8 +32,7 @@
                             <div class="d-flex flex-row">
                                 <input name="email" type="email" class="form-control mr-2" id="inlineFormInputGroup"
                                     placeholder="Enter email" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Enter email'" value="{{ old('email') }}" required
-                                    autofocus autocomplete="username">
+                                    onblur="this.placeholder = 'Enter email'" value="{{ old('email') }}" required autocomplete="username">
 
                                 <button type="submit" class="click-btn btn btn-default"><span
                                         class="lnr lnr-arrow-right"></span></button>

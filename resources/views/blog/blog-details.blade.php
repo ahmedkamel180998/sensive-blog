@@ -9,7 +9,26 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="main_blog_details">
-                        <x-cld-image public-id="{{ $blog->image_public_id }}" alt="{{ $blog->name }}" width="80" height="80" class="img-fluid"></x-cld-image>
+                        @if($blog && $blog->image_public_id)
+                            <!--suppress BladeUnknownComponentInspection -->
+                            <x-cld-image
+                                public-id="{{ $blog->image_public_id }}"
+                                :alt="$blog->name"
+                                width="80"
+                                height="80"
+                                class="img-fluid"
+                                loading="lazy">
+                            </x-cld-image>
+                        @elseif($blog->image_url)
+                            <img src="{{ $blog->image_url }}"
+                                 alt="{{ $blog->name }}"
+                                 width="80"
+                                 height="80"
+                                 class="img-fluid"
+                                 loading="lazy">
+                        @else
+                            <div class="placeholder-image" style="width: 80px; height: 80px; background: #e0e0e0;"></div>
+                        @endif
                         <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
                             <h4>{{ $blog->name }}</h4>
                         </a>
@@ -21,7 +40,7 @@
                                         <p>{{ $blog->created_at->format('d M Y') }}</p>
                                     </div>
                                     <div class="d-flex">
-                                        <img width="42" height="42" src="{{ asset('assets') }}/img/avatar.png" alt="">
+                                        <img width="42" height="42" src="{{ $user->avatar ?? asset("assets/img/avatar.png") }}" alt="user avatar">
                                     </div>
                                 </div>
                             </div>
@@ -35,7 +54,7 @@
                             <div class="single-comment justify-content-between d-flex">
                                 <div class="user justify-content-between d-flex">
                                     <div class="thumb">
-                                        <img src="{{ asset('assets') }}/img/avatar.png" width="50px">
+                                        <img src="{{ asset('assets/img/avatar.png') }}" width="50px" alt="avatar.png">
                                     </div>
                                     <div class="desc">
                                         <h5><a href="#">Emilly Blunt</a></h5>
@@ -51,7 +70,7 @@
                             <div class="single-comment justify-content-between d-flex">
                                 <div class="user justify-content-between d-flex">
                                     <div class="thumb">
-                                        <img src="{{ asset('assets') }}/img/avatar.png" width="50px">
+                                        <img src="{{ asset('assets/img/avatar.png') }}" width="50px" alt="avatar.png">
                                     </div>
                                     <div class="desc">
                                         <h5><a href="#">Maria Luna</a></h5>
@@ -67,7 +86,7 @@
                             <div class="single-comment justify-content-between d-flex">
                                 <div class="user justify-content-between d-flex">
                                     <div class="thumb">
-                                        <img src="{{ asset('assets') }}/img/avatar.png" width="50px">
+                                        <img src="{{ asset('assets/img/avatar.png') }}" width="50px" alt="avatar.png">
                                     </div>
                                     <div class="desc">
                                         <h5><a href="#">Ina Hayes</a></h5>
@@ -99,7 +118,7 @@
                                     onblur="this.placeholder = 'Subject'">
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'"
+                                <textarea class="form-control mb-10" rows="5" name="message" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'"
                                     required=""></textarea>
                             </div>
                             <a href="#" class="button submit_btn">Post Comment</a>
@@ -107,7 +126,7 @@
                     </div>
                 </div>
 
-                <!-- Start Blog Post Siddebar -->
+                <!-- Start Blog Post Sidebar -->
                 <div class="col-lg-4 sidebar-widgets">
                     <div class="widget-wrap">
                         <div class="single-sidebar-widget newsletter-widget">
@@ -118,11 +137,11 @@
                                         onblur="this.placeholder = 'Enter email'">
                                 </div>
                             </div>
-                            <button class="bbtns d-block w-100 mt-20">Subcribe</button>
+                            <button class="bbtns d-block w-100 mt-20">Subscribe</button>
                         </div>
 
                         <div class="single-sidebar-widget post-category-widget">
-                            <h4 class="single-sidebar-widget__title">Catgory</h4>
+                            <h4 class="single-sidebar-widget__title">Category</h4>
                             <ul class="cat-list mt-20">
                                 <li>
                                     <a href="#" class="d-flex justify-content-between">
@@ -162,7 +181,7 @@
                             <div class="popular-post-list">
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb1.png" alt="">
+                                        <img class="card-img rounded-0" src="{{ asset('assets/img/blog/thumb/thumb1.png') }}" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#">Adam Colinge</a></li>
                                             <li><a href="#">Dec 15</a></li>
@@ -176,7 +195,7 @@
                                 </div>
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb2.png" alt="">
+                                        <img class="card-img rounded-0" src="{{ asset('assets/img/blog/thumb/thumb2.png') }}" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#">Adam Colinge</a></li>
                                             <li><a href="#">Dec 15</a></li>
@@ -191,7 +210,7 @@
                                 </div>
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb3.png" alt="">
+                                        <img class="card-img rounded-0" src="{{ asset('assets/img/blog/thumb/thumb3.png') }}" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#">Adam Colinge</a></li>
                                             <li><a href="#">Dec 15</a></li>
@@ -208,8 +227,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- End Blog Post Siddebar -->
+                <!-- End Blog Post Sidebar -->
             </div>
+        </div>
     </section>
     <!--================ End Blog Post Area =================-->
 @endsection
