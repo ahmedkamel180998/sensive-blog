@@ -1,7 +1,8 @@
 @php
     $categories = App\Models\Category::get();
+    $latestBlogs = App\Models\Blog::latest()->take(3)->get();
 @endphp
-<!-- Start Blog Post Sidebar -->
+        <!-- Start Blog Post Sidebar -->
 <div class="col-lg-4 sidebar-widgets">
     <div class="widget-wrap">
         <!-- Newsletter -->
@@ -16,12 +17,14 @@
                     <h4 class="single-sidebar-widget__title">Newsletter</h4>
                     <div class="form-group mt-30">
                         <div class="col-autos">
-                            <input name="email" type="email" class="form-control" id="newsletterFormInput" placeholder="Enter email" onfocus="this.placeholder = ''"
-                                onblur="this.placeholder = 'Enter email'" value="{{ old('email') }}" required autofocus autocomplete="username">
+                            <input name="email" type="email" class="form-control" id="newsletterFormInput"
+                                   placeholder="Enter email" onfocus="this.placeholder = ''"
+                                   onblur="this.placeholder = 'Enter email'" value="{{ old('email') }}" required
+                                   autofocus autocomplete="username">
 
                             {{-- beginner solution for named error bag --}}
-                            @if (session('requestUri') == '/subscribe/sidebar/store')
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            @if (session('requestUri') === '/subscribe/sidebar/store')
+                                <x-input-error :messages="$errors->get('email')" class="mt-2"/>
                             @endif
                         </div>
                     </div>
@@ -37,9 +40,11 @@
                 <ul class="cat-list mt-20">
                     @foreach ($categories as $category)
                         <li>
-                            <a href="{{ route('blog.category', ['id' => $category->id]) }}" class="d-flex justify-content-between">
+                            <a href="{{ route('blog.category', ['id' => $category->id]) }}"
+                               class="d-flex justify-content-between">
                                 <p>{{ $category->name }}</p>
-                                <p>(03)</p>
+                                    <?php $categoryBlogsCount = $category->blogs->count(); ?>
+                                <p>({{ $categoryBlogsCount?: 0 }})</p>
                             </a>
                         </li>
                     @endforeach
@@ -51,50 +56,33 @@
         <div class="single-sidebar-widget popular-post-widget">
             <h4 class="single-sidebar-widget__title">Recent Posts</h4>
             <div class="popular-post-list">
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb1.png" alt="">
-                        <ul class="thumb-info">
-                            <li><a href="#">Adam Colinge</a></li>
-                            <li><a href="#">Dec 15</a></li>
-                        </ul>
-                    </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Accused of assaulting flight attendant miktake alaways</h6>
-                        </a>
-                    </div>
-                </div>
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb2.png" alt="">
-                        <ul class="thumb-info">
-                            <li><a href="#">Adam Colinge</a></li>
-                            <li><a href="#">Dec 15</a></li>
-                        </ul>
-                    </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Tennessee outback steakhouse the
-                                worker diagnosed</h6>
-                        </a>
-                    </div>
-                </div>
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="card-img rounded-0" src="{{ asset('assets') }}/img/blog/thumb/thumb3.png" alt="">
-                        <ul class="thumb-info">
-                            <li><a href="#">Adam Colinge</a></li>
-                            <li><a href="#">Dec 15</a></li>
-                        </ul>
-                    </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Tennessee outback steakhouse the
-                                worker diagnosed</h6>
-                        </a>
-                    </div>
-                </div>
+                @if (count($latestBlogs) > 0)
+                    @foreach($latestBlogs as $blog)
+                        <div class="single-post-list">
+                            <div class="thumb">
+                                <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
+                                    <!--suppress BladeUnknownComponentInspection -->
+                                    <x-cld-image public-id="{{ $blog->image_public_id }}" alt="{{ $blog->name }}"
+                                                 width="80"
+                                                 height="80"
+                                                 class="img-fluid">
+                                    </x-cld-image>
+                                    <ul class="thumb-info">
+                                        <li>{{ $blog->user->name }}</li>
+                                        <li>{{ $blog->created_at->format('M d y h:I') }}</li>
+                                    </ul>
+                                </a>
+                            </div>
+                            <div class="details mt-20">
+                                <a href="{{ route('blogs.show', ['blog' => $blog]) }}">
+                                    <h6>{{ $blog->name }}</h6>
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <p>No blogs found.</p>
+                @endif
             </div>
         </div>
     </div>
