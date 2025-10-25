@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogPagesController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
@@ -40,6 +41,9 @@ Route::post('/contact/store', [ContactController::class, 'store'])->name('contac
 Route::get('/my/blogs', [BlogController::class, 'userBlogs'])->name('blog.myBlogs');
 Route::resource('/blogs', BlogController::class);
 
+// Comment Routes
+Route::post('/comments/store', [CommentController::class, 'store'])->name('comment.store');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -50,4 +54,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
