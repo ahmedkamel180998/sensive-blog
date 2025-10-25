@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBlogRequest extends FormRequest
+class UpdateBlogRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class StoreBlogRequest extends FormRequest
             'name' => 'required|string',
             'description' => 'required|string',
             'category_id' => 'required|numeric',
-            'image' => 'required|image|extensions:jpg,png,jpeg,webp|mimes:jpg,png,jpeg,webp',
+            'image' => 'nullable|image|extensions:jpg,png,jpeg,webp|mimes:jpg,png,jpeg,webp',
         ];
     }
 
@@ -44,7 +44,6 @@ class StoreBlogRequest extends FormRequest
             'description.required' => 'Please enter blog description',
             'description.string' => 'Blog description should be a text',
             'category.required' => 'Please select blog category',
-            'image.required' => 'Please enter an image',
             'image.image' => 'Please enter a valid image',
             'image.extensions' => 'The image should be png, jpg, jpeg or webp',
             'image.mimes' => 'This is not an image',

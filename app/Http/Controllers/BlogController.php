@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBlogRequest;
+use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreBlogRequest;
 
 class BlogController extends Controller
 {
@@ -14,6 +14,7 @@ class BlogController extends Controller
     {
         $this->middleware('auth')->only(['create', 'userBlogs']);
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -25,7 +26,11 @@ class BlogController extends Controller
 
     public function userBlogs()
     {
-        $blogs = Blog::where('user_id', Auth::user()->id)->paginate(10);
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'You must be logged in to view your blogs.');
+        }
+        $blogs = Blog::where('user_id', $user->id)->paginate(10);
         return view('blog.my-blogs', compact('blogs'));
     }
 
@@ -47,7 +52,7 @@ class BlogController extends Controller
             $validated = $request->validated();
 
             // Upload to Cloudinary (this can fail)
-            $cloudinaryImage = $request->file('image')->storeOnCloudinary('sensive-blog/posts');
+            $cloudinaryImage = $request->file('image')?->storeOnCloudinary('sensive-blog/posts');
 
             // Remove image and add Cloudinary data
             unset($validated['image']);
@@ -80,15 +85,44 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        //
+        if ($blog->user_id === Auth::user()->id) {
+            $categories = Category::get();
+            return view('blog.post.edit', compact('categories', 'blog'));
+        }
+        abort(403, 'Unauthorized action.');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog)
+    public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        //
+        if ($blog->user_id === Auth::user()->id) {
+            try {
+                $validated = $request->validated();
+
+                if ($request->hasFile('image')) {
+                    // Upload to Cloudinary (this can fail)
+                    $cloudinaryImage = $request->file('image')?->storeOnCloudinary('sensive-blog/posts');
+
+                    // Remove image and add Cloudinary data
+                    unset($validated['image']);
+
+                    $validated = array_merge($validated, [
+                        'image_url' => $cloudinaryImage->getSecurePath(),
+                        'image_public_id' => $cloudinaryImage->getPublicId(),
+                    ]);
+                }
+
+                // Create the blog post
+                $blog->update($validated);
+
+                return back()->with('updateBlogSuccess', 'Blog updated successfully!');
+            } catch (\Exception $e) {
+                return back()->with('updateBlogFail', 'Failed to update blog. Please try again.');
+            }
+        }
+        abort(403, 'Unauthorized action.');
     }
 
     /**
@@ -96,6 +130,14 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        //
+        if ($blog->user_id === Auth::user()->id) {
+            try {
+                $blog->delete();
+                return back()->with('deleteBlogSuccess', 'Blog deleted successfully!');
+            } catch (\Exception $e) {
+                return back()->with('deleteBlogFail', 'Failed to delete blog. Please try again.');
+            }
+        }
+        abort(403, 'Unauthorized action.');
     }
 }
