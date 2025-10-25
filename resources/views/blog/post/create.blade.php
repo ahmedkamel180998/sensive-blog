@@ -12,7 +12,7 @@
 
                     <!-- Go back navigation -->
                     <div class="mb-4">
-                        <a href="{{ route('blogs.index') }}" class="nav-link-form">Go Back</a>
+                        <a href="{{ route('blog.index') }}" class="nav-link-form">Go Back</a>
                     </div>
 
                     @if (session('storeBlogSuccess'))
@@ -25,21 +25,25 @@
                         </div>
                     @else
                         <!-- Create blog post -->
-                        <form method="POST" action="{{ route('blogs.store') }}" enctype="multipart/form-data" id="create_post" novalidate>
+                        <form method="POST" action="{{ route('blogs.store') }}" enctype="multipart/form-data"
+                              id="create_post" novalidate>
                             @csrf
 
                             <!-- Blog title -->
                             <div class="mb-4">
                                 <label for="name" class="form-label fs-5 text-secondary fw-bold">Blog title</label>
-                                <input type="text" class="form-control" name="name" id="name" required autofocus autocomplete="title" value="{{ old('name') }}">
-                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                <input type="text" class="form-control" name="name" id="name" required autofocus
+                                       autocomplete="title" value="{{ old('name') }}">
+                                <x-input-error :messages="$errors->get('name')" class="mt-2"/>
                             </div>
 
                             <!-- Description -->
                             <div class="mb-4">
-                                <label for="description" class="form-label fs-5 text-secondary fw-bold">Description</label>
-                                <textarea name="description" id="description" cols="30" rows="5" class="form-control">{{ old('description') }}</textarea>
-                                <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                                <label for="description"
+                                       class="form-label fs-5 text-secondary fw-bold">Description</label>
+                                <textarea name="description" id="description" cols="30" rows="5"
+                                          class="form-control">{{ old('description') }}</textarea>
+                                <x-input-error :messages="$errors->get('description')" class="mt-2"/>
                             </div>
 
                             <!-- Select category -->
@@ -53,17 +57,19 @@
                                         @endforeach
                                     @endif
                                 </select>
-                                <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('category_id')" class="mt-2"/>
                             </div>
 
                             <!-- Upload image -->
                             <div class="mb-4">
                                 <label class="form-label fs-5 text-secondary fw-bold" for="image"></label>
                                 <input class="form-control--file" type="file" name="image" id="image" required>
-                                <x-input-error :messages="$errors->get('image')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('image')" class="mt-2"/>
                             </div>
 
-                            <button type="submit" class="btn w-100 button button--active button-contactForm mt-4">Create Post</button>
+                            <button type="submit" class="btn w-100 button button--active button-contactForm mt-4">Create
+                                Post
+                            </button>
                         </form>
                     @endif
                 </div>

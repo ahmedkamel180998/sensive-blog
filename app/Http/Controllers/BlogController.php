@@ -15,15 +15,6 @@ class BlogController extends Controller
         $this->middleware('auth')->only(['create', 'userBlogs']);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $blogs = Blog::paginate(4);
-        return view('blog.index', compact('blogs'));
-    }
-
     public function userBlogs()
     {
         $user = Auth::user();

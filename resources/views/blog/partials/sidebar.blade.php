@@ -69,7 +69,7 @@
                                     </x-cld-image>
                                     <ul class="thumb-info">
                                         <li>{{ $blog->user->name }}</li>
-                                        <li>{{ $blog->created_at->format('M d y h:I') }}</li>
+                                        <li>{{ $blog->created_at->format('M d y h:i A') }}</li>
                                     </ul>
                                 </a>
                             </div>

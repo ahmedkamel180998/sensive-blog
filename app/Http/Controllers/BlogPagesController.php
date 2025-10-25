@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\Category;
-use Illuminate\Http\Request;
 
 class BlogPagesController extends Controller
 {
     public function index()
     {
         $blogs = Blog::paginate(4);
-        return view('blog.index', compact('blogs'));
+
+        $latestBlogs = Blog::latest()->get();
+        return view('blog.index', compact('blogs', 'latestBlogs'));
     }
 
     public function category($id)

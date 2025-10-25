@@ -12,7 +12,7 @@
 
                     <!-- Go back navigation -->
                     <div class="mb-4">
-                        <a href="{{ route('blogs.index') }}" class="nav-link-form">Go Back</a>
+                        <a href="{{ route('blog.index') }}" class="nav-link-form">Go Back</a>
                     </div>
 
                     @if (session('deleteBlogSuccess'))
